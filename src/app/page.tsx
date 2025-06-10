@@ -17,23 +17,45 @@ export default function Home() {
 
   const spin = async () => {
     setLoading(true);
-    navigator.geolocation.getCurrentPosition(async (pos) => {
-      const r = await fetch('/api/nearby', {
-        method: 'POST',
-        body: JSON.stringify({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        })
+    
+    try {
+      navigator.geolocation.getCurrentPosition(async (pos) => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        console.log('coords =', lat, lng);  
+        
+        // 只需要一次 API 調用
+        const response = await fetch('/api/nearby', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ lat, lng })
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error('API Error:', response.status, errorText);
+          throw new Error(`API request failed: ${response.status} - ${errorText}`);
+        }
+        
+        const places = await response.json();
+        
+        if (!places.length) {
+          alert('附近找不到餐廳 😢');
+          return setLoading(false);
+        }
+        
+        const pick = places[Math.floor(Math.random() * places.length)];
+        setWinner(pick);
+        setLoading(false);
+      }, (error) => {
+        console.error('Geolocation error:', error);
+        alert('無法取得位置資訊');
+        setLoading(false);
       });
-      const places = await r.json();
-      if (!places.length) {
-        alert('附近找不到餐廳 😢');
-        return setLoading(false);
-      }
-      const pick = places[Math.floor(Math.random() * places.length)];
-      setWinner(pick);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('發生錯誤，請稍後再試');
       setLoading(false);
-    });
+    }
   };
 
   return (
@@ -67,8 +89,12 @@ export default function Home() {
 
       {/* 非必需：若你要在頁面上也嵌入地圖再加這段 Script */}
       <Script
-        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
+        src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&loading=async`}
         strategy="afterInteractive"
+        async
+        onError={(e) => {
+          console.error('Error loading Google Maps:', e);
+        }}
       />
     </main>
   );

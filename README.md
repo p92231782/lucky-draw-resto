@@ -135,15 +135,6 @@ npm run dev     # ➜ http://localhost:3000
 
 ---
 
-## 📄 License
-
-[MIT](LICENSE)
-
----
-
-> Made with ☕ and 🍜 in Taipei. If this project helped you, star the repo or buy me a milk tea!
-
-```
 
 **How to use**
 

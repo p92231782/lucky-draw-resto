@@ -3,8 +3,16 @@
 import { useState } from 'react';
 import Script from 'next/script';
 
+interface Place {
+  id: string;
+  displayName: { text: string };
+  rating?: number;
+  formattedAddress?: string;
+  // 你若還用到 priceLevel / location 也在這裡補上
+}
+
 export default function Home() {
-  const [winner, setWinner] = useState<any>(null);
+  const [winner, setWinner] = useState<Place | null>(null);
   const [loading, setLoading] = useState(false);
 
   const spin = async () => {

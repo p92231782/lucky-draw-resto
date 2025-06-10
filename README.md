@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍀 Lucky-Draw Resto
 
-## Getting Started
+A tiny web app that picks a **random nearby restaurant** so you never have to ask  
+“今天吃什麼？” again.
 
-First, run the development server:
+Built with **Next.js 15 (App Router + Turbopack)**, **TypeScript**, and the  
+**Google Places API**. Deploy-ready for **Vercel** in one click.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Demo
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Desktop | Mobile |
+|---------|--------|
+| ![Desktop demo](docs/demo-desktop.gif) | ![Mobile demo](docs/demo-mobile.gif) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+*(Add your own GIFs / screenshots to `/docs` when you’re ready.)*
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🔨 Features
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Feature | Notes |
+|---------|-------|
+| 💡 “Lucky draw” button | Uses `Math.random()` on Google Places results |
+| 📍 Auto-detect location | HTML Geolocation API (falls back with a toast if denied) |
+| 🌐 Serverless API route | Hides your Google API key + enables caching |
+| ⚡️ Fast | Turbopack dev server + optional Maps JS lazy-load |
+| 🛠 100 % TypeScript | Strict types (`Place` interface) |
+| ♻️ 30 min edge cache | Reduce Places quota usage (configurable) |
+| 🗺 Optional map | Add the Maps JS `<Script>` only if you need it |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🗄 Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Layer | Tech |
+|-------|------|
+| Front end | Next.js 15, React 18, Tailwind CSS |
+| Back end | Next.js App Router **route handler** (`src/app/api/nearby/route.ts`) |
+| Data | Google **Places API** — choose *Classic Nearby Search* **or** *Places API (New)* |
+| Infra | Vercel (Preview & Prod), GitHub CI (auto-deploy on push) |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

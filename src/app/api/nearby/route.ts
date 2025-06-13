@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
     includedTypes: ['restaurant'], 
     maxResultCount: 20,
     locationRestriction: {
-      circle: { center: { latitude: lat, longitude: lng }, radius: 1000 }
+      circle: { center: { latitude: lat, longitude: lng }, radius: 500 }
     }
   };
 
